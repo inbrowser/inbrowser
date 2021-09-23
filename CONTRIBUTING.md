@@ -2,7 +2,7 @@
 
 This project is a gathering of tools, and our goal is to create a [website](https://github.com/inbrowser/inbrowser.github.io) providing a user-friendly interface for them.
 
-Locally, you can execute the JavaScript files with [Node.js](https://nodejs.org/en/).
+Locally, you can execute the JavaScript files with [Node.js](https://nodejs.org/en/). It's recommended to code in [Webstorm](https://www.jetbrains.com/webstorm/).
 
 * install it
 * inside this folder, install the packages: `npm i`
