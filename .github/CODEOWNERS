@@ -1,0 +1,14 @@
+#
+# Edit with the files/folders you are owning
+#
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+/matrix/ @Delta93500
+
+/algebra/ @Vivano @AthonSc
+
+/statistics/ @DataSaiyentist @Vivano
+
+/seo/ @QuentinRa
+
+/files_handlers/ @DataSaiyentist @YouennEsnault
