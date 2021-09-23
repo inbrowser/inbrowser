@@ -21,9 +21,9 @@ Use GitHub discussions to talk about something (feature, question, etc.).
 We will use [Semantic Versioning 2.0.0](https://semver.org/).
 
 > * **Format**: MAJOR.MINOR.PATCH
->  * MAJOR: breaking change (of the API)
->  * MINOR: non-breaking change, backward compatible
->  * PATCH: internal change
+>     * MAJOR: breaking change (of the API)
+>     * MINOR: non-breaking change, backward compatible
+>     * PATCH: internal change
 > * 0.y.z: in development
 > * 1.y.z: stable
 

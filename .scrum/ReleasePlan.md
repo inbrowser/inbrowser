@@ -40,10 +40,10 @@ function primeFactorization(n) {}
 
 ### Process
 
-1. Write the tests (ex: at least 5-10 tests of your function, test successes and failures)
+1. Write the tests (ex: at least 5-10 tests of your function, test successes, and failures)
 2. Write the documentation
 3. Write the code
 
-If you need to change the code, change the tests and the documentation first.
+If you need to modify the code, change the tests and the documentation first.
 
 > **Our priorities**: working (=tested) > code clean (=documentation) > fast (=optimization)
