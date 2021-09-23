@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-    mode: "development", //todo: production
+    mode: "production", //todo: production
     entry: {
-        matrix: './matrix/api.js',
+        seo: './seo/api.js',
     },
     output: {
         filename: '[name].bundle.js',
