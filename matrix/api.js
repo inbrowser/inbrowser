@@ -11,6 +11,9 @@ function lu_factorization(matrix, b, computeSteps) {
         },
         steps: [
             {
+                text: "Checking submitted data"
+            },
+            {
                 text: "Checking that every leading minor is not null",
                 steps: [
                     { math: "det(\\Delta_1) = 4 \\gt 0" },

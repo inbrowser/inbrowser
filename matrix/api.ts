@@ -7,16 +7,17 @@ import {Matrix} from "mathjs";
  *
  * The result is an array made of one to two entries
  *
- * - result, null if failed
+ * - result, null if failed, error_message will be added with some information
  *  - L: [[1,0,0], [0.5,1,0], [0.5,0.0.6666667, 1]]
  *  - U: [[4,2,2], [0,9,6], [0,0,16]]
  *  - X: [4, -1, -1]
- * - steps
+ * - steps (null, if computeSteps is false)
  *  - ... checking ... => ok/ko
  *  - ... formula ... => L
  *  - ... coefficients ... => U
  *  - ... solving LY=b ... => Y
  *  - ... solving UX=Y => X
+ *  - [error_message]: if result is null, information about "why"
  */
 export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps = true) {
     // not coded
@@ -27,6 +28,9 @@ export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps 
             X: [4, -1, -1]
         },
         steps: [
+            {
+                text: "Checking submitted data"
+            },
             {
                 text: "Checking that every leading minor is not null",
                 /*done: true, true by default*/

@@ -2,9 +2,6 @@ const {createMatrix} = require("./utils/Matrix");
 const {lu_factorization} = require("./api");
 const assert = require("assert");
 
-/**
- * Test to check that the 404 Finder is working
- */
 describe('lu_factorization', function() {
     describe('checking X value', function() {
         it('given a matrix 3x3', async function() {
