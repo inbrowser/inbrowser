@@ -29,20 +29,24 @@ export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps 
         },
         steps: [
             {
-                text: "Checking submitted data"
-            },
-            {
-                text: "Checking that every leading minor is not null",
-                /*done: true, true by default*/
+                text: "Checking submitted data",
                 steps: [
-                    { math: "det(\\Delta_1) = 4 \\gt 0" },
-                    { math: "det(\\Delta_2) = 36 \\gt 0" },
-                    { math: "det(\\Delta_3) = 576 \\gt 0" },
+                    { text: "Square matrix: ok" },
+                    { text: "Length of b matching A: ok" },
+                    {
+                        text: "Checking that every leading minor is not null",
+                        /*done: true, true by default*/
+                        steps: [
+                            { math: "det(\\Delta_1) = 4 \\gt 0" },
+                            { math: "det(\\Delta_2) = 36 \\gt 0" },
+                            { math: "det(\\Delta_3) = 576 \\gt 0" },
+                        ]
+                    },
+                    {
+                        text: "Checking that the matrix is invertible",
+                        steps: [{ math: "det(A) = det(\\Delta_3) \\neq 0" }]
+                    }
                 ]
-            },
-            {
-                text: "Checking that the matrix is invertible",
-                steps: [{ math: "det(A) = det(\\Delta_3) \\neq 0" }]
             },
             {
                 text: "Gauss reduction",

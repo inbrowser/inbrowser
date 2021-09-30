@@ -2,11 +2,15 @@
 
 This project is a gathering of tools, and our goal is to create a [website](https://github.com/inbrowser/inbrowser.github.io) providing a user-friendly interface for them.
 
-Locally, you can execute the JavaScript files with [Node.js](https://nodejs.org/en/). It's recommended to code in [Webstorm](https://www.jetbrains.com/webstorm/).
+* You need to install [Node.js](https://nodejs.org/en/)
+* It's recommended to code in [Webstorm](https://www.jetbrains.com/webstorm/).
 
-* install it
-* inside this folder, install the packages: `npm i`
-* you can run a JavaScript file with `node ./path/to/file.js`
+Once both are installed, run Webstorm
+
+* write `npm i` (or npm install, in a terminal)
+* you can run tests with `mocha ./path/to/tests.js` (or `mocha path\\to\\tests.js` on Windows)
+
+As we are using test driven development, this should be the only way to run your code.
 
 <hr>
 
@@ -34,7 +38,7 @@ We will use [Semantic Versioning 2.0.0](https://semver.org/).
 Each kind of functionalities is inside a folder in the root folder. We are putting inside each folder, 
 
 * a file `tests.js` with the tests (using [mocha](https://mochajs.org/))
-* a file `api.js` with the functions that the website can use
+* a file `api.ts` (in [Typescript](https://www.typescriptlang.org/)) with the functions that the website can use
 
 <hr>
 

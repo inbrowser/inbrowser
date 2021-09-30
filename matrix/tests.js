@@ -11,7 +11,7 @@ describe('lu_factorization', function() {
             let json = lu_factorization(matrix, b, true)
             assert.notEqual(json, null);
             assert.notEqual(json.result, null);
-            assert.equal(json.result.X, expected);
+            assert.deepStrictEqual(json.result.X, expected);
         });
     });
 });
