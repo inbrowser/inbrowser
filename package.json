@@ -5,7 +5,8 @@
   "type": "commonjs",
   "scripts": {
     "build": "webpack",
-    "tsc": "tsc --project tsconfig.json -w"
+    "tsc": "tsc --project tsconfig.json -w",
+    "test": "mocha matrix/tests.js statistics/tests.js"
   },
   "devDependencies": {
     "mocha": "^9.1.1",
