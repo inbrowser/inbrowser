@@ -3,27 +3,40 @@
 // DATE: 09/30/2021
 // DESCRIPTION: Test of the main functions from the library "statistics"
 //
-
 const assert = require('assert');
 const {getSummary} = require('./api');
 
 describe('getSummary', function() {
-    describe('Check the returned value, hat_x, S2(x) and sqrt_S2(x)', function() {
-        it('given an ArrayList x', function() {
-            // should return -1 because the given list is empty
-            json1=getSummary([])
-            assert.equal(json1.result.avg_emp, -1);
-            assert.equal(json1.result.var_emp, -1);
-            assert.equal(json1.result.std_emp, -1);
-            
-            let myList = [1,2,3,4,5,6,7,8,9,10]
-            json2=getSummary(myList)
+    let list_1_to_10 = [1,2,3,4,5,6,7,8,9,10]
+
+    describe('Testing default options', function() {
+        it('for an empty set', function() {
+            let json = getSummary([])
+            // todo: assert things after deciding what should be returned
+            //  when we are using the default config, and an empty set
+            //  old code (do not return -1, I think the mean can be -1...)
+            //  should return -1 because the given list is empty
+        });
+    });
+    describe('Testing mean', function() {
+        it('with list_1_to_10', function() {
+            let json = getSummary(list_1_to_10, { empirical_mean: true })
             // should return 10*(10+1)/(10*2)=11/2
-            assert.equal(json2.result.avg_emp, 5.5);
+            assert.equal(json.result.empirical_mean, 5.5);
+        });
+    });
+    describe('Testing variance', function() {
+        it('with list_1_to_10', function() {
+            let json = getSummary(list_1_to_10, { empirical_variance: true })
             // should return 2*(0.5^2+1.5^2+2.5^2+3.5^2+4.5^2)/9=55/6
-            assert.equal(json2.result.var_emp, 55/6);
+            assert.equal(json.result.empirical_variance, 55/6);
+        });
+    });
+    describe('Testing std variation', function() {
+        it('with list_1_to_10', function() {
+            let json = getSummary(list_1_to_10, { empirical_std_variation: true })
             // should return 2*(0.5^2+1.5^2+2.5^2+3.5^2+4.5^2)/9=sqrt(55/6)
-            assert.equal(json2.result.std_emp, Math.sqrt(55/6));
+            assert.equal(json.result.empirical_std_variation, Math.sqrt(55/6));
         });
     });
 });
