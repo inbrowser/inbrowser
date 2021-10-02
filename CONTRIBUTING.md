@@ -46,9 +46,7 @@ Each kind of functionalities is inside a folder in the root folder. We are putti
 
 * **Branches**
 
-Do not push on `main`. Make a branch per version (ex: `version-1.0.0`), and create a new branch for each feature (ex: `add-seo-broken-links`). Make a **pull request** when you need to merge into `version-x.x.x` and when you need to merge in `main`.
-
-Of course, you should ask for at least **one** review.
+Do not push on `main`. Make a branch per feature (ex: `add-seo-broken-links`). Make a **pull request** when you need to merge, add ask for reviews.
 
 * **Commits' names**
 
@@ -58,7 +56,7 @@ We are following [Conventional Commits 1.0.0](https://www.conventionalcommits.or
 * `tests`: commit related to the tests
 * `feat`: adding a feature
 * `fix`: fixing something
-* `style`: cleaning the code
+* `style`: cleaning the code/improving UI
 * `security`: security
 * `deps`: upgrading/downgrading dependencies
 

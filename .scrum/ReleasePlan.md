@@ -12,6 +12,7 @@ The duration of a sprint is **2 weeks**.
 
 A story is done, when
 
+* when the UI is created and working with the code
 * we are passing the **tests**
   * for non-JavaScript files, use UI testing
   * for JavaScript files, use [mocha](https://mochajs.org/)
