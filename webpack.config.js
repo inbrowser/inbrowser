@@ -5,6 +5,7 @@ module.exports = {
     entry: {
         matrix: './matrix/api.js',
         statistics: './statistics/api.js',
+        calculus: './calculus/api.js',
     },
     output: {
         filename: '[name].bundle.js',
