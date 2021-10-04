@@ -4,27 +4,34 @@ exports.evaluate_function = exports.CalculusErrorMessages = void 0;
 var mathjs = require("mathjs");
 var CalculusErrorMessages;
 (function (CalculusErrorMessages) {
-    CalculusErrorMessages["InvalidParameterValueForFunction"] = "The given value is not valid for this function";
-    CalculusErrorMessages["InvalidParameterNameForFunction"] = "This function does not have a parameter of this name";
+    CalculusErrorMessages["InvalidParameterForFunction"] = "The given parameter for the function's expression is not valid";
+    CalculusErrorMessages["NullParameterForFunction"] = "This function does not have parameters";
 })(CalculusErrorMessages = exports.CalculusErrorMessages || (exports.CalculusErrorMessages = {}));
 function evaluate_function(fx, variables) {
-    var success = true;
-    var errorMessage = undefined;
-    for (var variableName in variables) {
-        var variableValue = variables[variableName];
-        if (fx.indexOf(variableName) == -1) {
-            success = false;
-            errorMessage = CalculusErrorMessages.InvalidParameterNameForFunction;
-            break;
-        }
-        fx = fx.replace(variableName, variableValue + "");
-        break;
+    if (fx === undefined || fx == null) {
+        return {
+            result: null,
+            error: CalculusErrorMessages.InvalidParameterForFunction
+        };
     }
-    return {
-        result: mathjs.evaluate(fx),
-        success: success,
-        error: errorMessage
-    };
+    if (variables === undefined || variables == null) {
+        return {
+            result: null,
+            error: CalculusErrorMessages.NullParameterForFunction
+        };
+    }
+    try {
+        var x = mathjs.evaluate(fx, variables);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
 }
 exports.evaluate_function = evaluate_function;
 //# sourceMappingURL=api.js.map
