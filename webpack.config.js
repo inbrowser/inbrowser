@@ -6,6 +6,7 @@ module.exports = {
         matrix: './matrix/api.js',
         statistics: './statistics/api.js',
         calculus: './calculus/api.js',
+        algebra: './algebra/api.js',
     },
     output: {
         filename: '[name].bundle.js',

@@ -1,7 +1,5 @@
-const { createComplex, getNeg, getConjugate, getInverse, addComplex, multiplyComplex, getPolarCoordinates } = require("./Complex");
-// const {lu_factorization} = require("./api");
+const { createComplex, getNeg, getConjugate, getInverse, addComplex, multiplyComplex, getPolarCoordinates } = require("./api");
 const assert = require("assert");
-const {create} = require("mathjs");
 
 describe('operations on complex numbers', function() {
     let complexNumber = createComplex(1, 2);
