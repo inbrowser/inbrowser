@@ -1,6 +1,5 @@
-import * as Mathjs from "mathjs";
-import {Matrix} from "mathjs";
 import * as mathjs from "mathjs";
+import {Matrix} from "mathjs";
 
 /**
  * Take two matrices and return the result of their mathematical product
@@ -65,7 +64,7 @@ export function createMatrix(data: number[], cols: number, rows?: number) {
             matrixData[i][j] = v;
         }
     }
-    return Mathjs.matrix(matrixData, "dense", "number");
+    return mathjs.matrix(matrixData, "dense", "number");
 }
 
 export enum MatrixErrors {
@@ -100,9 +99,9 @@ export function lu_factorization(matrix: Matrix, b: Array<Number>) : object {
     if ( matrix.size().shift() != b.length ) return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE }
 
     try {
-        const f = Mathjs.lup(matrix)
+        const f = mathjs.lup(matrix)
         // @ts-ignore
-        const x = Mathjs.lusolve(f, b)
+        const x = mathjs.lusolve(f, b)
         // ok
         // @ts-ignore
         return { result: { L: f.L.toArray(), U: f.U.toArray(), X: x.toArray().flat() } }
