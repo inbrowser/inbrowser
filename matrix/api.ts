@@ -1,5 +1,51 @@
-import * as Mathjs from "mathjs";
+import * as mathjs from "mathjs";
 import {Matrix} from "mathjs";
+
+/**
+ * Take two matrices and return the result of their mathematical product
+ * @param a if undefined then error (Unexpected type of argument)
+ * @param b if undefined then error (Unexpected type of argument)
+ *
+ * @return json
+ * => error if sizes does not match (Dimension mismatch in multiplication)
+ */
+export function matrix_product(a: Matrix, b: Matrix) : object {
+    try{
+        let x: Matrix = mathjs.multiply(a,b)
+        return{
+            result: x,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
+
+/**
+ * Take a matrix and return his inverse
+ * @param a if undefined then error (Unexpected type of argument)
+ *
+ * @return json
+ * => error if determinant is 0 (Cannot calculate inverse, determinant is zero)
+ * => error if matrix is not square (Matrix must be square)
+ */
+export function matrix_inverse(a: Matrix) : object {
+    try{
+        let x: Matrix = mathjs.inv(a)
+        return {
+            result: x,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
 
 /**
  * Take an array of data, create a matrix.
@@ -18,7 +64,7 @@ export function createMatrix(data: number[], cols: number, rows?: number) {
             matrixData[i][j] = v;
         }
     }
-    return Mathjs.matrix(matrixData, "dense", "number");
+    return mathjs.matrix(matrixData, "dense", "number");
 }
 
 export enum MatrixErrors {
@@ -53,9 +99,9 @@ export function lu_factorization(matrix: Matrix, b: Array<Number>) : object {
     if ( matrix.size().shift() != b.length ) return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE }
 
     try {
-        const f = Mathjs.lup(matrix)
+        const f = mathjs.lup(matrix)
         // @ts-ignore
-        const x = Mathjs.lusolve(f, b)
+        const x = mathjs.lusolve(f, b)
         // ok
         // @ts-ignore
         return { result: { L: f.L.toArray(), U: f.U.toArray(), X: x.toArray().flat() } }

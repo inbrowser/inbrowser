@@ -1,7 +1,37 @@
 "use strict";
 exports.__esModule = true;
-exports.lu_factorization = exports.MatrixErrors = exports.createMatrix = void 0;
-var Mathjs = require("mathjs");
+exports.lu_factorization = exports.MatrixErrors = exports.createMatrix = exports.matrix_inverse = exports.matrix_product = void 0;
+var mathjs = require("mathjs");
+function matrix_product(a, b) {
+    try {
+        var x = mathjs.multiply(a, b);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_product = matrix_product;
+function matrix_inverse(a) {
+    try {
+        var x = mathjs.inv(a);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_inverse = matrix_inverse;
 function createMatrix(data, cols, rows) {
     if (rows === undefined)
         rows = cols;
@@ -15,7 +45,7 @@ function createMatrix(data, cols, rows) {
             matrixData[i][j] = v;
         }
     }
-    return Mathjs.matrix(matrixData, "dense", "number");
+    return mathjs.matrix(matrixData, "dense", "number");
 }
 exports.createMatrix = createMatrix;
 var MatrixErrors;
@@ -30,8 +60,8 @@ function lu_factorization(matrix, b) {
     if (matrix.size().shift() != b.length)
         return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE };
     try {
-        var f = Mathjs.lup(matrix);
-        var x = Mathjs.lusolve(f, b);
+        var f = mathjs.lup(matrix);
+        var x = mathjs.lusolve(f, b);
         return { result: { L: f.L.toArray(), U: f.U.toArray(), X: x.toArray().flat() } };
     }
     catch (e) {
