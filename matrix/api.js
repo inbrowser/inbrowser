@@ -1,6 +1,37 @@
 "use strict";
 exports.__esModule = true;
-exports.lu_factorization = void 0;
+exports.lu_factorization = exports.matrix_inverse = exports.matrix_product = void 0;
+var mathjs = require("mathjs");
+function matrix_product(a, b) {
+    try {
+        var x = mathjs.multiply(a, b);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_product = matrix_product;
+function matrix_inverse(a) {
+    try {
+        var x = mathjs.inv(a);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_inverse = matrix_inverse;
 function lu_factorization(matrix, b, computeSteps) {
     if (computeSteps === void 0) { computeSteps = true; }
     return {

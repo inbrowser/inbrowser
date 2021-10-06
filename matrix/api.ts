@@ -1,4 +1,51 @@
 import {Matrix} from "mathjs";
+import * as mathjs from "mathjs";
+
+/**
+ * Take two matrices and return the result of their mathematical product
+ * @param a if undefined then error (Unexpected type of argument)
+ * @param b if undefined then error (Unexpected type of argument)
+ *
+ * @return json
+ * => error if sizes does not match (Dimension mismatch in multiplication)
+ */
+export function matrix_product(a: Matrix, b: Matrix) : object {
+    try{
+        let x: Matrix = mathjs.multiply(a,b)
+        return{
+            result: x,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
+
+/**
+ * Take a matrix and return his inverse
+ * @param a if undefined then error (Unexpected type of argument)
+ *
+ * @return json
+ * => error if determinant is 0 (Cannot calculate inverse, determinant is zero)
+ * => error if matrix is not square (Matrix must be square)
+ */
+export function matrix_inverse(a: Matrix) : object {
+    try{
+        let x: Matrix = mathjs.inv(a)
+        return {
+            result: x,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
 
 /**
  * Take a matrix, and returns the LU factorization, with the steps
@@ -19,7 +66,7 @@ import {Matrix} from "mathjs";
  *  - ... solving UX=Y => X
  *  - [error_message]: if result is null, information about "why"
  */
-export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps = true) {
+ export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps = true) {
     // not coded
     return {
         result: {
