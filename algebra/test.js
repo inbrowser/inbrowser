@@ -5,7 +5,7 @@ describe('operations on complex numbers', function() {
     let complexNumber = createComplex(1, 2);
     let complexNumber2 = createComplex(3, 4);
 
-    it('should get negative of complex number', async function () {
+    it('should get negative of complex number', function () {
         let negComplexNumber = getNeg(complexNumber);
         let expected = { re: -1, im: -2 };
 
@@ -13,7 +13,7 @@ describe('operations on complex numbers', function() {
         assert.equal(negComplexNumber.im, expected.im);
     });
 
-    it('should get conjugate of complex number', async function () {
+    it('should get conjugate of complex number', function () {
         let conjugateComplexNumber = getConjugate(complexNumber);
         let expected = { re: 1, im: -2 };
 
@@ -21,7 +21,7 @@ describe('operations on complex numbers', function() {
         assert.equal(conjugateComplexNumber.im, expected.im);
     });
 
-    it('should get inverse of complex number', async function () {
+    it('should get inverse of complex number', function () {
         let inverseComplexNumber = getInverse(complexNumber);
         let expected = { re: 0.2, im: -0.4 };
 
@@ -29,7 +29,7 @@ describe('operations on complex numbers', function() {
         assert.equal(inverseComplexNumber.im, expected.im);
     });
 
-    it('should add complex number', async function () {
+    it('should add complex number', function () {
         let result = addComplex(complexNumber, complexNumber2);
         let expected = { re: 4, im: 6 };
 
@@ -37,7 +37,7 @@ describe('operations on complex numbers', function() {
         assert.equal(result.im, expected.im);
     });
 
-    it('should multiply complex number', async function () {
+    it('should multiply complex number', function () {
         let result = multiplyComplex(complexNumber, complexNumber2);
         let expected = { re: -5, im: 10 };
 
@@ -47,7 +47,7 @@ describe('operations on complex numbers', function() {
 });
 
 describe('get polar coordinates from complex number', function() {
-    it('should get polar coordinates from complex number', async function () {
+    it('should get polar coordinates from complex number', function () {
         let complexNumber = createComplex(1, 2);
         let polarCoordinates = getPolarCoordinates(complexNumber);
         let expected = { r: 2.23606797749979, phi: 1.1071487177940904 };
