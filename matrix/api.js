@@ -109,5 +109,36 @@ function lu_factorization(matrix, b, computeSteps) {
         ]
     };
 }
+exports.createMatrix = createMatrix;
+var MatrixErrors;
+(function (MatrixErrors) {
+    MatrixErrors["PARAMETER_EMPTY"] = "Value null of undefined";
+    MatrixErrors["NOT_INVERTIBLE"] = "Matrix not invertible";
+    MatrixErrors["VECTOR_B_INVALID_SIZE"] = "The number of values in b is not equals to the number of rows in A.";
+})(MatrixErrors = exports.MatrixErrors || (exports.MatrixErrors = {}));
+function lu_factorization(matrix, b) {
+    if (matrix == null || b == null)
+        return { result: null, error: MatrixErrors.PARAMETER_EMPTY };
+    if (matrix.size().shift() != b.length)
+        return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE };
+    try {
+        var f = Mathjs.lup(matrix);
+        var x = Mathjs.lusolve(f, b);
+        return { result: { L: f.L.toArray(), U: f.U.toArray(), X: x.toArray().flat() } };
+    }
+    catch (e) {
+        var error = e.message;
+        switch (error) {
+            case 'Dimension mismatch. Matrix columns must match vector length.':
+                error = MatrixErrors.VECTOR_B_INVALID_SIZE;
+                break;
+            case 'Linear system cannot be solved since matrix is singular':
+                error = MatrixErrors.NOT_INVERTIBLE;
+                break;
+            default: break;
+        }
+        return { result: null, error: error };
+    }
+}
 exports.lu_factorization = lu_factorization;
 //# sourceMappingURL=api.js.map
