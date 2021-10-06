@@ -3,12 +3,16 @@
 #
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 #
-/matrix/ @Delta93500
+/matrix/ @QuentinRa @Delta93500
 
-/algebra/ @Vivano @AthonSc
+/algebra/ @AthonSc
 
-/statistics/ @DataSaiyentist @Vivano
+/calculus/ @Vivano
+
+/editors/ @QuentinRa
+
+/files_handlers/ @DataSaiyentist @YouennEsnault
 
 /seo/ @QuentinRa
 
-/files_handlers/ @DataSaiyentist @YouennEsnault
+/statistics/ @DataSaiyentist @Vivano
