@@ -1,20 +1,5 @@
 # Rapport d'itération
 
-## Composition de l'équipe 
-
-|  &nbsp;                 | Itération précédente     |
-| -------------           |-------------             |
-| **Product Owner**       | *Youenn ESNAULT*         |
-| **Scrum Master**        | *Quentin RAMSAMY--AGEORGES* |
-
-## Bilan de l'itération précédente  
-
-None.
-
-## Rétrospective de l'itération précédente
-  
-None
-
 ## Prévisions de l'itération suivante  
 
 ### Évènements prévus ("blockers")
@@ -30,13 +15,13 @@ None
 
 |          	| :( 	| :&#124; 	| :) 	| :D 	|
 |:--------:	|:----:	|:----:	    |:----:	|:----:	|
-| Equipe 1 	|  *0* 	|  *0* 	    |  *0* 	|  *0* 	|
+| Equipe 1 	|  *0* 	|  *2* 	    |  *3* 	|  *0* 	|
 
 ### Taux de confiance de l'équipe pour la réalisation du projet
 
 |          	| :( 	| :&#124; 	| :) 	| :D 	|
 |:--------:	|:----:	|:----:	    |:----:	|:----:	|
-| Equipe 1 	|  *0* 	|  *0* 	    |  *0* 	|  *0* 	|
+| Equipe 1 	|  *0* 	|  *0* 	    |  *3* 	|  *2* 	|
 
  
  
