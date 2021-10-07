@@ -63,14 +63,14 @@ Voir Trello colonne "Done Sprint N°1"
 
 |          	| :( 	| :&#124; 	| :) 	| :D 	|
 |:--------:	|:----:	|:----:	    |:----:	|:----:	|
-| Equipe 7 	|  *0* 	|  *0* 	    |  *0* 	|  *0* 	|
+| Equipe 7 	|  *0* 	|  *1* 	    |  *2* 	|  *2* 	|
 
 ### Taux de confiance de l'équipe pour la réalisation du projet 
 *Remplir le tableau sachant que :D est une confiance totale dans le fait de réaliser le projet. Mettre le nombre de votes dans chacune des cases. Expliquer en cas de besoin.*
 
 |          	| :( 	| :&#124; 	| :) 	| :D 	|
 |:--------:	|:----:	|:----:	    |:----:	|:----:	|
-| Equipe 7 	|  *0* 	|  *0* 	    |  *0* 	|  *0* 	|
+| Equipe 7 	|  *0* 	|  *0* 	    |  *0* 	|  *5* 	|
 
  
  
