@@ -4,7 +4,7 @@
 
 |  &nbsp;                 | Itération précédente     |
 | -------------           |-------------             |
-| **Product Owner**       | *Youenn Esnault*         |
+| **Product Owner**       | *Youenn ESNAULT*         |
 | **Scrum Master**        | *Quentin RAMSAMY--AGEORGES* |
 
 ## Bilan de l'itération précédente  
