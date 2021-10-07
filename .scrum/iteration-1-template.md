@@ -87,7 +87,7 @@ Voir Trello colonne "Done Sprint N°1"
 
 |          	| :( 	| :&#124; 	| :) 	| :D 	|
 |:--------:	|:----:	|:----:	    |:----:	|:----:	|
-| Equipe 1 	|  *0* 	|  *1* 	    |  *2* 	|  *2* 	|
+| Equipe 1 	|  *0* 	|  *1* 	    |  *2* 	|  *3* 	|
 
 ### Taux de confiance de l'équipe pour la réalisation du projet
 
@@ -95,7 +95,7 @@ Voir Trello colonne "Done Sprint N°1"
 
 |          	| :( 	| :&#124; 	| :) 	| :D 	|
 |:--------:	|:----:	|:----:	    |:----:	|:----:	|
-| Equipe 1 	|  *0* 	|  *0* 	    |  *0* 	|  *5* 	|
+| Equipe 1 	|  *0* 	|  *0* 	    |  *0* 	|  *6* 	|
 
  
  
