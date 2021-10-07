@@ -6,8 +6,8 @@
 
 |  &nbsp;                 | Itération précédente     |
 | -------------           |-------------             |
-| **Product Owner**       | **                       |
-| **Scrum Master**        | **                       |
+| **Product Owner**       | *Youenn ESNAULT*                       |
+| **Scrum Master**        | *Quentin RAMSAMY--AGEORGES*                       |
 
 ## Bilan de l'itération précédente  
 ### Évènements 
