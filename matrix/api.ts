@@ -1,5 +1,6 @@
 import * as mathjs from "mathjs";
 import {Matrix} from "mathjs";
+import {APIResult} from "../index";
 
 /**
  * Take two matrices and return the result of their mathematical product
@@ -9,7 +10,7 @@ import {Matrix} from "mathjs";
  * @return json
  * => error if sizes does not match (Dimension mismatch in multiplication)
  */
-export function matrix_product(a: Matrix, b: Matrix) : object {
+export function matrix_product(a: Matrix, b: Matrix) : APIResult {
     try{
         let x: Matrix = mathjs.multiply(a,b)
         return{
@@ -32,7 +33,7 @@ export function matrix_product(a: Matrix, b: Matrix) : object {
  * => error if determinant is 0 (Cannot calculate inverse, determinant is zero)
  * => error if matrix is not square (Matrix must be square)
  */
-export function matrix_inverse(a: Matrix) : object {
+export function matrix_inverse(a: Matrix) : APIResult {
     try{
         let x: Matrix = mathjs.inv(a)
         return {
@@ -52,7 +53,7 @@ export function matrix_inverse(a: Matrix) : object {
  * Ex: createMatrix([1,2,3,4], 2, 2) => [[1,2],[3,4]]
  * Ex: createMatrix([1,2,3,4], 2) => [[1,2],[3,4]]
  */
-export function createMatrix(data: number[], cols: number, rows?: number) {
+export function createMatrix(data: number[], cols: number, rows?: number) : Matrix {
     if (rows === undefined) rows = cols;
     let matrixData: number[][] = [];
 
@@ -93,7 +94,7 @@ export enum MatrixErrors {
  *
  * @example lu_factorization([[4,2,2], [2,10,7], [2,7,21]], [12,-9,-20])
  */
-export function lu_factorization(matrix: Matrix, b: Array<Number>) : object {
+export function lu_factorization(matrix: Matrix, b: Array<Number>) : APIResult {
     // include undefined
     if ( matrix == null || b == null ) return { result: null, error: MatrixErrors.PARAMETER_EMPTY }
     if ( matrix.size().shift() != b.length ) return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE }

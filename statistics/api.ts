@@ -16,7 +16,7 @@ export class SummaryData {
 }
 
 /**
- * AUTHORs: QuentinRa (https://github.com/QuentinRa)
+ * AUTHORS: QuentinRa (https://github.com/QuentinRa)
  *          DataSaiyentist (https://github.com/DataSaiyentist)
  * DATE: 09/23/2021
  * DESCRIPTION: From a dataset (one column of data)

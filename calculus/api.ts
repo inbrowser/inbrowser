@@ -1,4 +1,5 @@
 import * as mathjs from "mathjs";
+import {APIResult} from "../index";
 
 /**
  * Error messages
@@ -19,7 +20,7 @@ export enum CalculusErrorMessages {
  *         else return null for result and the errorMessage
  *         ======> check behavior if 1/0
  */
-export function evaluate_function(fx: string, variables : object) : object {
+export function evaluate_function(fx: string, variables : object) : APIResult {
     if (fx === undefined || fx == null)
     {
         return {
