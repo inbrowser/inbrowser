@@ -1,5 +1,5 @@
 //
-// AUTHORs: QuentinRa (https://github.com/QuentinRa)
+// AUTHORS: QuentinRa (https://github.com/QuentinRa)
 //          DataSaiyentist (https://github.com/DataSaiyentist)
 // DATE: 09/30/2021
 // DESCRIPTION: Test of the main functions from the library "statistics"
