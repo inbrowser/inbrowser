@@ -1,5 +1,5 @@
 import * as mathjs from "mathjs";
-import {Matrix} from "mathjs";
+import {MathArray, Matrix, min} from "mathjs";
 import {APIResult} from "../index";
 
 /**
@@ -74,6 +74,84 @@ export enum MatrixErrors {
     VECTOR_B_INVALID_SIZE = "The number of values in b is not equals to the number of rows in A.",
 }
 
+function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResult {
+    const steps : Array<Object> = [];
+    let L : Matrix = matrix;
+    let U : Matrix = matrix;
+    let X : Matrix = matrix;
+    let empty = false;
+
+    // FIRST STEP
+    const checks = [
+        { text: "Matrix must be two dimensional", ok: true },
+        { text: "Matrix must be square", ok: true }
+    ];
+    const mSize = matrix.size(); if (mSize.length !== 2) { checks[0].ok = false; empty = true; }
+    const rows = mSize[0], columns = mSize[1]; if (rows !== columns) { checks[1].ok = false; empty = true; }
+    steps.push({
+        text: "Checking the format of the submitted matrix",
+        steps: checks
+    });
+
+    // SECOND STEP
+    const determinants = [];
+    const range = []
+    let dn = null; // last dn
+    for (let i = 0; i < rows; i++) {
+        range.push(i);
+        let v = mathjs.subset(matrix, mathjs.index(range, range))
+        dn = mathjs.det(v)
+        let res = {
+            text: `Checking leading minor $\\Delta_${i+1}$`,
+            ok: dn > 0
+        }
+        determinants.push(res);
+        if (!res.ok) { empty = true; break; } // stop if invalid
+    }
+    if (!empty) { // not processing the last step of this category
+        determinants.push({text: `Matrix must be invertible ($D_${rows} \\neq 0$)`, ok: dn > 0})
+    }
+    steps.push({
+        text: "Check preconditions",
+        steps: determinants
+    })
+
+    // THIRD STEP
+    if (!empty) {
+        const res = mathjs.lup(matrix);
+        // @ts-ignore
+        L = res.L; U = res.U;
+
+        steps.push({
+            text: 'Create U with Gauss reduction',
+            steps: { type: 'matrix', value: U }
+        })
+
+        steps.push({
+            text: 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)',
+            steps: { type: 'matrix', value: L }
+        })
+
+        // @ts-ignore
+        const Y = mathjs.lsolve(L, b);
+        steps.push({
+            text: 'Find Y given that $LY = b$',
+            steps: { type: 'matrix', value: Y }
+        })
+
+        // @ts-ignore
+        X = mathjs.usolve(U, Y);
+        steps.push({
+            text: 'Find X given that $UX = Y$',
+            steps: { type: 'matrix', value: X }
+        })
+    }
+
+    if (empty) return { result: { L: null, U: null, X: null, steps: steps } };
+
+    return { result: { L: L.toArray(), U: U.toArray(), X: X.toArray().flat(), steps: steps } }
+}
+
 /**
  * Take a matrix, and returns the LU factorization, with the steps
  *
@@ -82,6 +160,8 @@ export enum MatrixErrors {
  * @param b return PARAMETER_EMPTY if undefined/null
  *          return VECTOR_B_INVALID_SIZE if the number rows of b isn't equals to the numbers of rows in matrix
 
+ * @param computeSteps [since 2.0] if true, compute steps
+ *
  * @return json The result is an array made of one to two entries
  *              - result, null if failed, error_message will be added with some information
  *                  - L: [[1,0,0], [0.5,1,0], [0.5,0.6666666666666666, 1]]
@@ -94,12 +174,14 @@ export enum MatrixErrors {
  *
  * @example lu_factorization([[4,2,2], [2,10,7], [2,7,21]], [12,-9,-20])
  */
-export function lu_factorization(matrix: Matrix, b: Array<Number>) : APIResult {
+export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps = false) : APIResult {
     // include undefined
     if ( matrix == null || b == null ) return { result: null, error: MatrixErrors.PARAMETER_EMPTY }
     if ( matrix.size().shift() != b.length ) return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE }
 
     try {
+        if (computeSteps) return lu_factorization_with_steps(matrix, b);
+
         const f = mathjs.lup(matrix)
         // @ts-ignore
         const x = mathjs.lusolve(f, b)

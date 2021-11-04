@@ -67,6 +67,56 @@ describe('Matrix', function () {
                 assert.deepStrictEqual(json.result.U, expected_valid_U);
             });
         });
+
+        describe('Testing steps', function () {
+            const first_check_valid = {
+                text: "Checking the format of the submitted matrix",
+                steps: [
+                    { text: "Matrix must be two dimensional", ok: true },
+                    { text: "Matrix must be square", ok: true }
+                ]
+            };
+            it('given a valid matrix', function() {
+                const json = lu_factorization(matrix_valid, b_valid, true)
+                const steps = json.result.steps;
+
+                assert.deepStrictEqual(steps[0], first_check_valid);
+
+                assert.deepStrictEqual(steps[1], {
+                    text: "Check preconditions",
+                    steps: [
+                        { text: `Checking leading minor $\\Delta_1$`, ok: true },
+                        { text: `Checking leading minor $\\Delta_2$`, ok: true },
+                        { text: `Checking leading minor $\\Delta_3$`, ok: true },
+                        { text: "Matrix must be invertible ($D_3 \\neq 0$)", ok: true }
+                    ]
+                });
+
+                assert.deepStrictEqual(steps[2].text, 'Create U with Gauss reduction');
+                assert.deepStrictEqual(steps[2].steps.value.toArray(), expected_valid_U);
+
+                assert.deepStrictEqual(steps[3].text, 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)');
+                assert.deepStrictEqual(steps[3].steps.value.toArray(), expected_valid_L);
+
+                assert.deepStrictEqual(steps[4].text, 'Find Y given that $LY = b$');
+                assert.deepStrictEqual(steps[4].steps.value.toArray(), [[12], [-15], [-16]]);
+
+                assert.deepStrictEqual(steps[5].text, 'Find X given that $UX = Y$');
+                assert.deepStrictEqual(steps[5].steps.value.toArray().flat(), expected_valid_X);
+            });
+            it('given an invalid matrix', function() {
+                const matrix_not_invertible = createMatrix([], 2, 2);
+                const json = lu_factorization(matrix_not_invertible, [2, 2], true)
+                const steps = json.result.steps;
+                assert.deepStrictEqual(steps[0], first_check_valid);
+                assert.deepStrictEqual(steps[1], {
+                    text: "Check preconditions",
+                    steps: [
+                        { text: `Checking leading minor $\\Delta_1$`, ok: false }
+                    ]
+                });
+            });
+        })
     });
 
     describe('Matrix product', function() {

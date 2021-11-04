@@ -54,12 +54,90 @@ var MatrixErrors;
     MatrixErrors["NOT_INVERTIBLE"] = "Matrix not invertible";
     MatrixErrors["VECTOR_B_INVALID_SIZE"] = "The number of values in b is not equals to the number of rows in A.";
 })(MatrixErrors = exports.MatrixErrors || (exports.MatrixErrors = {}));
-function lu_factorization(matrix, b) {
+function lu_factorization_with_steps(matrix, b) {
+    var steps = [];
+    var L = matrix;
+    var U = matrix;
+    var X = matrix;
+    var empty = false;
+    var checks = [
+        { text: "Matrix must be two dimensional", ok: true },
+        { text: "Matrix must be square", ok: true }
+    ];
+    var mSize = matrix.size();
+    if (mSize.length !== 2) {
+        checks[0].ok = false;
+        empty = true;
+    }
+    var rows = mSize[0], columns = mSize[1];
+    if (rows !== columns) {
+        checks[1].ok = false;
+        empty = true;
+    }
+    steps.push({
+        text: "Checking the format of the submitted matrix",
+        steps: checks
+    });
+    var determinants = [];
+    var range = [];
+    var dn = null;
+    for (var i = 0; i < rows; i++) {
+        range.push(i);
+        var v = mathjs.subset(matrix, mathjs.index(range, range));
+        dn = mathjs.det(v);
+        var res = {
+            text: "Checking leading minor $\\Delta_" + (i + 1) + "$",
+            ok: dn > 0
+        };
+        determinants.push(res);
+        if (!res.ok) {
+            empty = true;
+            break;
+        }
+    }
+    if (!empty) {
+        determinants.push({ text: "Matrix must be invertible ($D_" + rows + " \\neq 0$)", ok: dn > 0 });
+    }
+    steps.push({
+        text: "Check preconditions",
+        steps: determinants
+    });
+    if (!empty) {
+        var res = mathjs.lup(matrix);
+        L = res.L;
+        U = res.U;
+        steps.push({
+            text: 'Create U with Gauss reduction',
+            steps: { type: 'matrix', value: U }
+        });
+        steps.push({
+            text: 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)',
+            steps: { type: 'matrix', value: L }
+        });
+        var Y = mathjs.lsolve(L, b);
+        steps.push({
+            text: 'Find Y given that $LY = b$',
+            steps: { type: 'matrix', value: Y }
+        });
+        X = mathjs.usolve(U, Y);
+        steps.push({
+            text: 'Find X given that $UX = Y$',
+            steps: { type: 'matrix', value: X }
+        });
+    }
+    if (empty)
+        return { result: { L: null, U: null, X: null, steps: steps } };
+    return { result: { L: L.toArray(), U: U.toArray(), X: X.toArray().flat(), steps: steps } };
+}
+function lu_factorization(matrix, b, computeSteps) {
+    if (computeSteps === void 0) { computeSteps = false; }
     if (matrix == null || b == null)
         return { result: null, error: MatrixErrors.PARAMETER_EMPTY };
     if (matrix.size().shift() != b.length)
         return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE };
     try {
+        if (computeSteps)
+            return lu_factorization_with_steps(matrix, b);
         var f = mathjs.lup(matrix);
         var x = mathjs.lusolve(f, b);
         return { result: { L: f.L.toArray(), U: f.U.toArray(), X: x.toArray().flat() } };
