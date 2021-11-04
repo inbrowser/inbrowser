@@ -1,5 +1,5 @@
 import * as mathjs from "mathjs";
-import {MathArray, Matrix, min} from "mathjs";
+import {Matrix} from "mathjs";
 import {APIResult} from "../index";
 
 /**
@@ -109,7 +109,7 @@ function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResu
         if (!res.ok) { empty = true; break; } // stop if invalid
     }
     if (!empty) { // not processing the last step of this category
-        determinants.push({text: `Matrix must be invertible ($D_${rows} \\neq 0$)`, ok: dn > 0})
+        determinants.push({text: `Matrix must be invertible ($\\Delta_${rows} \\neq 0$)`, ok: dn > 0})
     }
     steps.push({
         text: "Check preconditions",
@@ -124,26 +124,27 @@ function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResu
 
         steps.push({
             text: 'Create U with Gauss reduction',
-            steps: { type: 'matrix', value: U }
+            steps: { type: 'matrix', value: U.toArray() }
         })
 
         steps.push({
             text: 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)',
-            steps: { type: 'matrix', value: L }
+            steps: { type: 'matrix', value: L.toArray() }
         })
 
         // @ts-ignore
         const Y = mathjs.lsolve(L, b);
         steps.push({
             text: 'Find Y given that $LY = b$',
-            steps: { type: 'matrix', value: Y }
+            // @ts-ignore
+            steps: { type: 'matrix', value: Y.toArray().flat() }
         })
 
         // @ts-ignore
         X = mathjs.usolve(U, Y);
         steps.push({
             text: 'Find X given that $UX = Y$',
-            steps: { type: 'matrix', value: X }
+            steps: { type: 'matrix', value: X.toArray().flat() }
         })
     }
 

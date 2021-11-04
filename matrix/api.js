@@ -96,7 +96,7 @@ function lu_factorization_with_steps(matrix, b) {
         }
     }
     if (!empty) {
-        determinants.push({ text: "Matrix must be invertible ($D_" + rows + " \\neq 0$)", ok: dn > 0 });
+        determinants.push({ text: "Matrix must be invertible ($\\Delta_" + rows + " \\neq 0$)", ok: dn > 0 });
     }
     steps.push({
         text: "Check preconditions",
@@ -108,21 +108,21 @@ function lu_factorization_with_steps(matrix, b) {
         U = res.U;
         steps.push({
             text: 'Create U with Gauss reduction',
-            steps: { type: 'matrix', value: U }
+            steps: { type: 'matrix', value: U.toArray() }
         });
         steps.push({
             text: 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)',
-            steps: { type: 'matrix', value: L }
+            steps: { type: 'matrix', value: L.toArray() }
         });
         var Y = mathjs.lsolve(L, b);
         steps.push({
             text: 'Find Y given that $LY = b$',
-            steps: { type: 'matrix', value: Y }
+            steps: { type: 'matrix', value: Y.toArray().flat() }
         });
         X = mathjs.usolve(U, Y);
         steps.push({
             text: 'Find X given that $UX = Y$',
-            steps: { type: 'matrix', value: X }
+            steps: { type: 'matrix', value: X.toArray().flat() }
         });
     }
     if (empty)
