@@ -59,7 +59,6 @@ describe('Matrix', function () {
         describe('checking result values', function() {
             it('given a matrix 3x3', function() {
                 let json = lu_factorization(matrix_valid, b_valid)
-                console.log(json)
                 assert.notEqual(json, null);
                 assert.notEqual(json.result, null);
                 assert.deepStrictEqual(json.result.X, expected_valid_X);
