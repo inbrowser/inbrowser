@@ -11,14 +11,14 @@ describe('evaluate_function', function() {
             const x = 2;
             let json = evaluate_function(fx, {x: x});
             assert.equal(json.result, null);
-            assert.equal(json.error, CalculusErrorMessages.InvalidParameterForFunction);
+            assert.equal(json.error, CalculusErrorMessages.InvalidFunction);
         });
         it('undefined fx', function() {
             const fx = null;
             const x = 2;
             let json = evaluate_function(fx, {x: x});
             assert.equal(json.result, null);
-            assert.equal(json.error, CalculusErrorMessages.InvalidParameterForFunction);
+            assert.equal(json.error, CalculusErrorMessages.InvalidFunction);
         });
         it('undefined variables', function() {
             const fx = "x + y";
@@ -77,6 +77,80 @@ describe('evaluate_function', function() {
             const x = 2;
             let json = evaluate_function(fx, {x: x});
             assert.equal(json.result, 1/x);
+        });
+    });
+});
+
+
+
+
+//
+
+
+const {first_simple_derivative} = require("./api");
+
+describe('first_simple_derivative', function() {
+    //test related to the expression of the function
+    describe('undefined or null fx', function() {
+        it('undefined fx', async function() {
+            const fx = undefined;
+            const variable = 'x';
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result,null);
+            assert.equal(json.error, CalculusErrorMessages.InvalidFunction);
+        });
+        it('null fx', async function() {
+            const fx = null;
+            const variable = 'x';
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result,null);
+            assert.equal(json.error, CalculusErrorMessages.InvalidFunction);
+        });
+    });
+    describe('undefined or incorrect variable', function() {
+        it('undefined variable', async function() {
+            const fx = 'x';
+            const variable = undefined;
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result,'x');
+            assert.equal(json.error, CalculusErrorMessages.NullParameterForFunction);
+        });
+        it('null variable', async function() {
+            const fx = 'x';
+            const variable = null;
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result,'x');
+            assert.equal(json.error, CalculusErrorMessages.NullParameterForFunction);
+        });
+        it('incorrect variable', async function() {
+            const fx = 'x';
+            const variable = 'y';
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result,0);
+            assert.equal(json.error, null);
+        });
+    });
+    describe('tests for a few functions', function() {
+        it('f(x) = x^2', async function() {
+            const fx = 'x^2';
+            const variable = 'x';
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result.toString(),'2 * x');
+            assert.equal(json.error, null);
+        });
+        it('f(x) = 1/x', async function() {
+            const fx = '1/x';
+            const variable = 'x';
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result.toString(),'-(1 / x ^ 2)');
+            assert.equal(json.error, null);
+        });
+        it('f(x) = 4x^3', async function() {
+            const fx = '4x^3';
+            const variable = 'x';
+            let json = first_simple_derivative(fx,variable);
+            assert.equal(json.result.toString(),'12 * x ^ 2');
+            assert.equal(json.error, null);
         });
     });
 });
