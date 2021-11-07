@@ -49,3 +49,34 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
         }
     }
 }
+
+
+
+//
+
+
+
+
+// @ts-ignore
+import {create,all} from "mathjs";
+const math = create(all);
+
+import * as integral from "./lib/integral";
+
+// @ts-ignore
+math.import( [[integral.createIntegral]] ); //simulates importing the npm package, which nests it [[]]
+
+export function compute_integral(fx: string, x: string) {
+    try {
+        // @ts-ignore
+        let res = math.integrate(fx,x);
+        return {
+            result: res.toString()
+        }
+    }
+    catch (e) {
+        return {
+            error: e.message
+        }
+    }
+}
