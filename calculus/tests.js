@@ -84,7 +84,9 @@ describe('evaluate_function', function() {
 
 
 
-
+/**
+ * tests for the simple integral function
+ */
 describe('integral tests', function() {
    it('basic OK test', function() {
        const fx = '10y+4x^2';
@@ -97,7 +99,7 @@ describe('integral tests', function() {
        const fx = '10y+4x^2';
        let res = compute_integral(fx);
        assert.equal(res.result,null);
-       assert.equal(res.error, "Unexpected type of argument in function integral (expected: string or SymbolNode or number or boolean, actual: undefined, index: 1)");
+       assert.equal(res.error.substring(0,48), "Unexpected type of argument in function integral");
    });
    it('test with a variable missing in the function', function() {
       const fx =  '10y+4x^2';
@@ -111,6 +113,6 @@ describe('integral tests', function() {
        const x = 'x';
        let res = compute_integral(fx,x);
        assert.equal(res.result, null);
-       assert.equal(res.error, "Unexpected type of argument in function integral (expected: string or Node or number or boolean, actual: null, index: 0)");
+       assert.equal(res.error.substring(0,48), "Unexpected type of argument in function integral");
    });
 });

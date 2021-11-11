@@ -52,11 +52,6 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
 
 
 
-//
-
-
-
-
 // @ts-ignore
 import {create,all} from "mathjs";
 const math = create(all);
@@ -66,6 +61,16 @@ import * as integral from "./lib/integral";
 // @ts-ignore
 math.import( [[integral.createIntegral]] ); //simulates importing the npm package, which nests it [[]]
 
+/**
+ * @param fx string : the string expression of the function we want to get the integral
+ *                    - if it is undefined, return the corresponding error message
+ * @param x string : the string of the variable compared to which we want to integrate
+ *                    - if there is an error, return the corresponding error message
+ * @return res json : two attributes (result,error) and two different cases
+ *                    - if there is an error when trying to integrate, return a null result and the corresponding
+ *                    error message
+ *                    - else, return the string of the computed integral in result and a null error
+*/
 export function compute_integral(fx: string, x: string) {
     try {
         // @ts-ignore
