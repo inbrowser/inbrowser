@@ -74,6 +74,22 @@ export enum MatrixErrors {
     VECTOR_B_INVALID_SIZE = "The number of values in b is not equals to the number of rows in A.",
 }
 
+/**
+ * @see lu_factorization
+ *
+ * @return we are adding a new entry in result: "steps".
+ * => Checking the format of the submitted matrix
+ *    Matrix must be two dimensional: true
+ *    Matrix must be square: true
+ * [IF OK] => Checking the format of the submitted matrix
+ *    Checking leading minor $\Delta_i$: true/false
+ *    ...
+ *    [IF OK] Matrix must be invertible ($\Delta_i$ > 0): true
+ * [IF OK] => Create U with Gauss reduction
+ * [IF OK] => Create L with the coefficients used in Gauss reduction (the k in $L_j <- L_j - k * L_i$)
+ * [IF OK] => Find Y given that $LY = b$
+ * [IF OK] => Find X given that $UX = Y$
+ */
 function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResult {
     const steps : Array<Object> = [];
     let L : Matrix = matrix;
@@ -93,28 +109,30 @@ function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResu
         steps: checks
     });
 
-    // SECOND STEP
-    const determinants = [];
-    const range = []
-    let dn = null; // last dn
-    for (let i = 0; i < rows; i++) {
-        range.push(i);
-        let v = mathjs.subset(matrix, mathjs.index(range, range))
-        dn = mathjs.det(v)
-        let res = {
-            text: `Checking leading minor $\\Delta_${i+1}$`,
-            ok: dn > 0
+    if(!empty) {
+        // SECOND STEP
+        const determinants = [];
+        const range = []
+        let dn = null; // last dn
+        for (let i = 0; i < rows; i++) {
+            range.push(i);
+            let v = mathjs.subset(matrix, mathjs.index(range, range))
+            dn = mathjs.det(v)
+            let res = {
+                text: `Checking leading minor $\\Delta_${i+1}$`,
+                ok: dn > 0
+            }
+            determinants.push(res);
+            if (!res.ok) { empty = true; break; } // stop if invalid
         }
-        determinants.push(res);
-        if (!res.ok) { empty = true; break; } // stop if invalid
+        if (!empty) { // not processing the last step of this category
+            determinants.push({text: `Matrix must be invertible ($\\Delta_${rows} \\neq 0$)`, ok: dn > 0})
+        }
+        steps.push({
+            text: "Check preconditions",
+            steps: determinants
+        })
     }
-    if (!empty) { // not processing the last step of this category
-        determinants.push({text: `Matrix must be invertible ($\\Delta_${rows} \\neq 0$)`, ok: dn > 0})
-    }
-    steps.push({
-        text: "Check preconditions",
-        steps: determinants
-    })
 
     // THIRD STEP
     if (!empty) {
@@ -128,7 +146,7 @@ function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResu
         })
 
         steps.push({
-            text: 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)',
+            text: 'Create L with the coefficients used in Gauss reduction (the k in $L_j <- L_j - k * L_i$)',
             steps: { type: 'matrix', value: L.toArray() }
         })
 

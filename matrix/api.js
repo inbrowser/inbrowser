@@ -78,30 +78,32 @@ function lu_factorization_with_steps(matrix, b) {
         text: "Checking the format of the submitted matrix",
         steps: checks
     });
-    var determinants = [];
-    var range = [];
-    var dn = null;
-    for (var i = 0; i < rows; i++) {
-        range.push(i);
-        var v = mathjs.subset(matrix, mathjs.index(range, range));
-        dn = mathjs.det(v);
-        var res = {
-            text: "Checking leading minor $\\Delta_" + (i + 1) + "$",
-            ok: dn > 0
-        };
-        determinants.push(res);
-        if (!res.ok) {
-            empty = true;
-            break;
-        }
-    }
     if (!empty) {
-        determinants.push({ text: "Matrix must be invertible ($\\Delta_" + rows + " \\neq 0$)", ok: dn > 0 });
+        var determinants = [];
+        var range = [];
+        var dn = null;
+        for (var i = 0; i < rows; i++) {
+            range.push(i);
+            var v = mathjs.subset(matrix, mathjs.index(range, range));
+            dn = mathjs.det(v);
+            var res = {
+                text: "Checking leading minor $\\Delta_" + (i + 1) + "$",
+                ok: dn > 0
+            };
+            determinants.push(res);
+            if (!res.ok) {
+                empty = true;
+                break;
+            }
+        }
+        if (!empty) {
+            determinants.push({ text: "Matrix must be invertible ($\\Delta_" + rows + " \\neq 0$)", ok: dn > 0 });
+        }
+        steps.push({
+            text: "Check preconditions",
+            steps: determinants
+        });
     }
-    steps.push({
-        text: "Check preconditions",
-        steps: determinants
-    });
     if (!empty) {
         var res = mathjs.lup(matrix);
         L = res.L;
@@ -111,7 +113,7 @@ function lu_factorization_with_steps(matrix, b) {
             steps: { type: 'matrix', value: U.toArray() }
         });
         steps.push({
-            text: 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)',
+            text: 'Create L with the coefficients used in Gauss reduction (the k in $L_j <- L_j - k * L_i$)',
             steps: { type: 'matrix', value: L.toArray() }
         });
         var Y = mathjs.lsolve(L, b);

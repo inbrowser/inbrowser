@@ -94,7 +94,7 @@ describe('Matrix', function () {
                 assert.deepStrictEqual(steps[2].text, 'Create U with Gauss reduction');
                 assert.deepStrictEqual(steps[2].steps.value, expected_valid_U);
 
-                assert.deepStrictEqual(steps[3].text, 'Create L with the coefficients used in Gauss reduction (then k in $L_j <- L_j - k * L_i$)');
+                assert.deepStrictEqual(steps[3].text, 'Create L with the coefficients used in Gauss reduction (the k in $L_j <- L_j - k * L_i$)');
                 assert.deepStrictEqual(steps[3].steps.value, expected_valid_L);
 
                 assert.deepStrictEqual(steps[4].text, 'Find Y given that $LY = b$');
