@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.lu_factorization = exports.MatrixErrors = exports.createMatrix = exports.matrix_inverse = exports.matrix_product = void 0;
+exports.matrix_solve_AX_eq_Y = exports.matrix_exponential = exports.matrix_determinant = exports.lu_factorization = exports.MatrixErrors = exports.createMatrix = exports.matrix_inverse = exports.matrix_product = void 0;
 var mathjs = require("mathjs");
 function matrix_product(a, b) {
     try {
@@ -159,4 +159,54 @@ function lu_factorization(matrix, b, computeSteps) {
     }
 }
 exports.lu_factorization = lu_factorization;
+function matrix_determinant(matrix) {
+    try {
+        if (matrix == null)
+            return { result: null, error: "Unexpected type of argument" };
+        var x = mathjs.det(matrix);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_determinant = matrix_determinant;
+function matrix_exponential(matrix) {
+    try {
+        if (matrix == null)
+            return { result: null, error: "Unexpected type of argument" };
+        var x = mathjs.expm(matrix);
+        return {
+            result: x
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_exponential = matrix_exponential;
+function matrix_solve_AX_eq_Y(A, Y) {
+    try {
+        var invA = mathjs.inv(A);
+        var X = mathjs.multiply(invA, Y);
+        return {
+            result: X
+        };
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message
+        };
+    }
+}
+exports.matrix_solve_AX_eq_Y = matrix_solve_AX_eq_Y;
 //# sourceMappingURL=api.js.map

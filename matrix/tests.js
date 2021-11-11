@@ -1,4 +1,5 @@
-const {createMatrix, MatrixErrors, lu_factorization, matrix_product, matrix_inverse} = require("./api");
+const {createMatrix, MatrixErrors, lu_factorization, matrix_product, matrix_inverse,
+       matrix_determinant, matrix_exponential, matrix_solve_AX_eq_Y} = require("./api");
 const assert = require("assert");
 
 describe('Matrix', function () {
@@ -191,6 +192,133 @@ describe('Matrix', function () {
                         0.11071428571428572 ] ];
                 let json = matrix_inverse(A);
                 assert.deepStrictEqual(json.result.toArray(), expected);
+            });
+        });
+    });
+
+    describe('Matrix determinant', function() {
+        describe('testing params', function() {
+            it('given an empty parameter', async function() {
+                let json = matrix_determinant(undefined);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Unexpected type of argument"));
+            });
+
+            it('given a non square matrix', async function() {
+                let A = createMatrix([2,3,5,8,1,6], 2, 3);
+                let json = matrix_determinant(A);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Matrix must be square"));
+            });
+        });
+
+        describe('testing result', function() {
+            it('given I3 (identity matrix 3x3)', async function() {
+                let A = createMatrix([1,0,0,0,1,0,0,0,1], 3, 3);
+                let expected = 1;
+                let json = matrix_determinant(A);
+                assert.deepStrictEqual(json.result, expected);
+            });
+
+            it('given a random matrix', async function() {
+                let A = createMatrix([-9,8,4,8,3,-5,8,1,0,2,3,9,-1,6,3,4], 4, 4);
+                let expected = -3291;
+                let json = matrix_determinant(A);
+                assert.notDeepEqual(json.result, null);
+                // noinspection JSCheckFunctionSignatures
+                assert.deepStrictEqual(Math.round(json.result), expected);
+            });
+        });
+    });
+
+    describe('Matrix exponential', function() {
+        describe('testing params', function() {
+            it('given an empty parameter', async function() {
+                let json = matrix_exponential(undefined);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Unexpected type of argument"));
+            });
+
+            it('given a non square matrix', async function() {
+                let A = createMatrix([2,3,5,8,1,6], 2, 3);
+                let json = matrix_exponential(A);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Matrix must be square"));
+            });
+        });
+
+        describe('testing result', function() {
+            it('given I3 (identity matrix 3x3)', async function() {
+                let A = createMatrix([1,0,0,0,1,0,0,0,1], 3, 3);
+                let e = Number(Math.exp(1).toFixed(4));
+                let expected = [[e,0,0],[0,e,0],[0,0,e]];
+                let json = matrix_exponential(A);
+                let res = json.result.toArray().map((e) => e.map((e) => Number(e.toFixed(4))));
+                assert.deepStrictEqual(res, expected);
+            });
+
+            it('given a random matrix', async function() {
+                let A = createMatrix([5,0,3,-6,-1,-3,-6,0,-4], 3, 3);
+                let expected = createMatrix([14.4102,0,7.0212,-14.0424,0.3679,-7.0212,-14.0424,0,-6.6533], 3, 3);
+                let json = matrix_exponential(A);
+                let res = json.result.toArray().map((e) => e.map((e) => Number(e.toFixed(4))));
+                assert.deepStrictEqual(res, expected.toArray());
+            });
+        });
+    });
+
+    describe('Matrix solve AX = Y', function() {
+        describe('testing params', function() {
+            it('given one or two empty params', async function() {
+                let json = matrix_solve_AX_eq_Y(undefined, undefined);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Unexpected type of argument"));
+            });
+
+            it('given A not square', async function() {
+                let A = createMatrix([2,3,5,8,1,6], 2, 3);
+                let Y = [7,1,3,-2,8,0,-9,6,3]
+                let json = matrix_solve_AX_eq_Y(A, Y);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Matrix must be square"));
+            });
+
+            it('given A and Y with incompatible sizes', async function() {
+                let A = createMatrix([2,3,8,1], 2, 2);
+                let Y = [4,8,9,10]
+                let json = matrix_solve_AX_eq_Y(A, Y);
+                assert.deepStrictEqual(json.result, null);
+                assert.ok(json.error.startsWith("Dimension mismatch in multiplication."));
+            });
+
+            it('given A with determinant 0', async function() {
+                let A = createMatrix([0,0,0,0], 2, 2);
+                let Y = [4,8]
+                let json = matrix_solve_AX_eq_Y(A, Y);
+                assert.deepStrictEqual(json.result, null);
+                assert.deepStrictEqual(json.error, "Cannot calculate inverse, determinant is zero");
+            });
+        });
+
+        describe('testing result', function() {
+            it('given A=I3 (identity 3x3 matrix) and random Y', async function() {
+                let A = createMatrix([1,0,0,0,1,0,0,0,1], 3, 3);
+                let Y = [4,-5,8]
+                let expected = [4,-5,8];
+                let json = matrix_solve_AX_eq_Y(A, Y);
+                assert.deepStrictEqual(json.result.toArray(), expected);
+            });
+
+            it('given random A and Y', async function() {
+                let A = createMatrix([1,1,1,0,2,5,2,5,-1], 3, 3);
+                let Y = [6,-4,27]
+                let expected = [5,3,-2];
+                let json = matrix_solve_AX_eq_Y(A, Y);
+                let res = json.result.toArray();
+                // round every value
+                let i = 3; while(i--) res[i] = Math.round(res[i]);
+                // check
+                assert.deepStrictEqual(res, expected);
             });
         });
     });

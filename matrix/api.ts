@@ -219,3 +219,69 @@ export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps 
         return { result: null, error: error };
     }
 }
+
+
+/**
+ * Take a matrix and return its determinant
+ */
+export function matrix_determinant(matrix: Matrix) : APIResult {
+    try {
+        if (matrix == null) return {result: null, error: "Unexpected type of argument"};
+
+        let x: Number = mathjs.det(matrix);
+
+        return {
+            result: x,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
+
+/**
+ * Take a matrix and return its exponential (Using the exponential series)
+ */
+export function matrix_exponential(matrix: Matrix) : APIResult {
+    try {
+        if (matrix == null) return {result: null, error: "Unexpected type of argument"};
+
+        let x: Matrix = mathjs.expm(matrix);
+
+        return {
+            result: x,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
+
+/**
+ * Take a matrix A and a vector Y and return the vector X solution of AX = Y
+ *
+ * @return json The result is an array made of one to two entries
+ *         - result, null if failed, error_message will be added with some information
+ *         - [error]: if result is null, information about "why"
+ */
+export function matrix_solve_AX_eq_Y(A: Matrix, Y: Array<number>) : APIResult {
+    try{
+        let invA: Matrix = mathjs.inv(A)
+        let X : Matrix = mathjs.multiply(invA,Y)
+        return {
+            result: X,
+        }
+    }
+    catch (e) {
+        return {
+            result: null,
+            error: e.message,
+        }
+    }
+}
