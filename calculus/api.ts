@@ -60,14 +60,14 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
  * @return json if there is no error, return the string corresponding to thr expression of the derivative in result
  */
 export function first_simple_derivative(fx: string, variable: string) : object {
-    if (fx === undefined || fx == null){
+    // failure cases
+    if (fx == null){
         return{
             result: null,
             error: CalculusErrorMessages.InvalidFunction
         }
     }
-
-    if (variable === undefined || variable == null){
+    if (variable == null){
         return{
             result: fx,
             error: CalculusErrorMessages.NullParameterForFunction

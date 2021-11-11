@@ -35,13 +35,13 @@ function evaluate_function(fx, variables) {
 }
 exports.evaluate_function = evaluate_function;
 function first_simple_derivative(fx, variable) {
-    if (fx === undefined || fx == null) {
+    if (fx == null) {
         return {
             result: null,
             error: CalculusErrorMessages.InvalidFunction
         };
     }
-    if (variable === undefined || variable == null) {
+    if (variable == null) {
         return {
             result: fx,
             error: CalculusErrorMessages.NullParameterForFunction
