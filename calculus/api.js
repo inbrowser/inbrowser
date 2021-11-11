@@ -1,7 +1,8 @@
 "use strict";
 exports.__esModule = true;
-exports.first_simple_derivative = exports.evaluate_function = exports.CalculusErrorMessages = void 0;
+exports.compute_integral = exports.first_simple_derivative = exports.evaluate_function = exports.CalculusErrorMessages = void 0;
 var mathjs = require("mathjs");
+var integral = require("./lib/integral");
 var CalculusErrorMessages;
 (function (CalculusErrorMessages) {
     CalculusErrorMessages["InvalidFunction"] = "The given parameter for the function's expression is not valid";
@@ -61,4 +62,20 @@ function first_simple_derivative(fx, variable) {
     }
 }
 exports.first_simple_derivative = first_simple_derivative;
+var math = mathjs.create(mathjs.all);
+math["import"]([[integral.createIntegral]]);
+function compute_integral(fx, x) {
+    try {
+        var res = math.integrate(fx, x);
+        return {
+            result: res.toString()
+        };
+    }
+    catch (e) {
+        return {
+            error: e.message
+        };
+    }
+}
+exports.compute_integral = compute_integral;
 //# sourceMappingURL=api.js.map

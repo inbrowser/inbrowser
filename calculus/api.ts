@@ -1,4 +1,5 @@
 import * as mathjs from "mathjs";
+import * as integral from "./lib/integral";
 import {APIResult} from "../index";
 
 /**
@@ -61,26 +62,25 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
  */
 export function first_simple_derivative(fx: string, variable: string) : object {
     // failure cases
-    if (fx == null){
+    if (fx == null) {
         return{
             result: null,
             error: CalculusErrorMessages.InvalidFunction
         }
     }
-    if (variable == null){
+    if (variable == null) {
         return{
             result: fx,
             error: CalculusErrorMessages.NullParameterForFunction
         }
     }
 
-    try{
+    try {
         let res = mathjs.derivative(fx,variable)
         return{
             result: res
         }
-    }
-    catch(e) {
+    } catch(e) {
         return {
             result: null,
             error: e.message
@@ -88,16 +88,9 @@ export function first_simple_derivative(fx: string, variable: string) : object {
     }
 }
 
-
-// configuring the import of the integral library
+const math = mathjs.create(mathjs.all); // creating math for integrals
 // @ts-ignore
-import {create,all} from "mathjs";
-const math = create(all);
-
-import * as integral from "./lib/integral";
-
-// @ts-ignore
-math.import( [[integral.createIntegral]] ); //simulates importing the npm package, which nests it [[]]
+math.import( [[integral.createIntegral]] );
 
 /**
  * @param fx string : the string expression of the function we want to get the integral

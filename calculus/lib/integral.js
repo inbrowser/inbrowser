@@ -1,8 +1,8 @@
 "use strict";
 exports.__esModule = true;
 exports.createIntegral = void 0;
-var mathjs_1 = require("mathjs");
-exports.createIntegral = (0, mathjs_1.factory)('integrate', ['parse', 'simplify', 'typed', 'ConstantNode', 'FunctionNode', 'OperatorNode', 'SymbolNode'], function (_a) {
+var mathjs = require("mathjs");
+exports.createIntegral = mathjs.factory('integrate', ['parse', 'simplify', 'typed', 'ConstantNode', 'FunctionNode', 'OperatorNode', 'SymbolNode'], function (_a) {
     var parse = _a.parse, simplify = _a.simplify, typed = _a.typed, ConstantNode = _a.ConstantNode, FunctionNode = _a.FunctionNode, OperatorNode = _a.OperatorNode, SymbolNode = _a.SymbolNode;
     var simplifyConstant = simplify;
     var integral = typed('integral', {

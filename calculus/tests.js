@@ -1,7 +1,6 @@
 // test related to the evaluation of a function
 const assert = require("assert");
-const {evaluate_function, CalculusErrorMessages, compute_integral} = require("./api");
-
+const {evaluate_function, CalculusErrorMessages, compute_integral, first_simple_derivative} = require("./api");
 
 describe('evaluate_function', function() {
     //test related to the parameters of the function
@@ -80,8 +79,6 @@ describe('evaluate_function', function() {
         });
     });
 });
-
-const {first_simple_derivative} = require("./api");
 
 describe('first_simple_derivative', function() {
     //test related to the expression of the function

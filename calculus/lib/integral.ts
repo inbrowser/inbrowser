@@ -1,9 +1,7 @@
-// noinspection TypeScriptValidateTypes
-
-import { factory } from 'mathjs';
+import * as mathjs from 'mathjs';
 
 // @ts-ignore
-export const createIntegral = factory('integrate',['parse', 'simplify','typed', 'ConstantNode', 'FunctionNode', 'OperatorNode', 'SymbolNode'], function ({ parse, simplify, typed, ConstantNode, FunctionNode, OperatorNode, SymbolNode }) {
+export const createIntegral = mathjs.factory('integrate',['parse', 'simplify','typed', 'ConstantNode', 'FunctionNode', 'OperatorNode', 'SymbolNode'], function ({ parse, simplify, typed, ConstantNode, FunctionNode, OperatorNode, SymbolNode }) {
     const simplifyConstant = simplify;
 
     /**
