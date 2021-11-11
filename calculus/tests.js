@@ -1,6 +1,6 @@
 // test related to the evaluation of a function
 const assert = require("assert");
-const {evaluate_function, CalculusErrorMessages} = require("./api");
+const {evaluate_function, CalculusErrorMessages, compute_integral} = require("./api");
 
 
 describe('evaluate_function', function() {
@@ -81,12 +81,6 @@ describe('evaluate_function', function() {
     });
 });
 
-
-
-
-//
-
-
 const {first_simple_derivative} = require("./api");
 
 describe('first_simple_derivative', function() {
@@ -153,4 +147,39 @@ describe('first_simple_derivative', function() {
             assert.equal(json.error, null);
         });
     });
+});
+
+/**
+ * tests for the simple integral function
+ *  - completion tests
+ *  - failure tests
+ */
+describe('integral tests', function() {
+   it('basic OK test', function() {
+       const fx = '10y+4x^2';
+       const x = 'x';
+       let res = compute_integral(fx,x);
+       assert.equal(res.result,"10 * y * x + x ^ 3 * 4 / 3");
+       assert.equal(res.error, null);
+   });
+   it('test with missing variable', function() {
+       const fx = '10y+4x^2';
+       let res = compute_integral(fx);
+       assert.equal(res.result,null);
+       assert.equal(res.error.substring(0,48), "Unexpected type of argument in function integral");
+   });
+   it('test with a variable missing in the function', function() {
+      const fx =  '10y+4x^2';
+      const z = 'z';
+      let res = compute_integral(fx,z);
+      assert.equal(res.result,"(10 y + 4 x ^ 2) * z");
+      assert.equal(res.error, null);
+   });
+   it('test with null function', function() {
+       const fx = null;
+       const x = 'x';
+       let res = compute_integral(fx,x);
+       assert.equal(res.result, null);
+       assert.equal(res.error.substring(0,48), "Unexpected type of argument in function integral");
+   });
 });
