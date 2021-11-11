@@ -5,7 +5,7 @@ import {APIResult} from "../index";
  * Error messages
  */
 export enum CalculusErrorMessages {
-    InvalidParameterForFunction = "The given parameter for the function's expression is not valid",
+    InvalidFunction = "The given parameter for the function's expression is not valid",
     NullParameterForFunction = "This function does not have parameters",
 }
 
@@ -25,7 +25,7 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
     {
         return {
             result: null,
-            error: CalculusErrorMessages.InvalidParameterForFunction
+            error: CalculusErrorMessages.InvalidFunction
         }
     }
 
@@ -43,6 +43,44 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
             result: x
         }
     } catch (e) {
+        return {
+            result: null,
+            error: e.message
+        }
+    }
+}
+
+
+/**
+ * @param fx string expression of the function (example: x^2).
+ *          If null, empty or undefined, return InvalidParameterForFunction in error
+ * @param variable string corresponding to the variable according to which we want to compute the derivative
+ *          If null, empty or undefined, return InvalidVariableForFunction in error and the string expression of the
+ *          function in result
+ * @return json if there is no error, return the string corresponding to thr expression of the derivative in result
+ */
+export function first_simple_derivative(fx: string, variable: string) : object {
+    // failure cases
+    if (fx == null){
+        return{
+            result: null,
+            error: CalculusErrorMessages.InvalidFunction
+        }
+    }
+    if (variable == null){
+        return{
+            result: fx,
+            error: CalculusErrorMessages.NullParameterForFunction
+        }
+    }
+
+    try{
+        let res = mathjs.derivative(fx,variable)
+        return{
+            result: res
+        }
+    }
+    catch(e) {
         return {
             result: null,
             error: e.message
