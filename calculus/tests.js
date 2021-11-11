@@ -86,6 +86,8 @@ describe('evaluate_function', function() {
 
 /**
  * tests for the simple integral function
+ *  - completion tests
+ *  - failure tests
  */
 describe('integral tests', function() {
    it('basic OK test', function() {

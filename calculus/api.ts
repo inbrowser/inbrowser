@@ -51,7 +51,7 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
 }
 
 
-
+// configuring the import of the integral library
 // @ts-ignore
 import {create,all} from "mathjs";
 const math = create(all);
