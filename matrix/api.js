@@ -88,7 +88,7 @@ function lu_factorization_with_steps(matrix, b) {
             dn = mathjs.det(v);
             var res = {
                 text: "Checking leading minor $\\Delta_" + (i + 1) + "$",
-                ok: dn > 0
+                ok: dn != 0
             };
             determinants.push(res);
             if (!res.ok) {
@@ -97,7 +97,7 @@ function lu_factorization_with_steps(matrix, b) {
             }
         }
         if (!empty) {
-            determinants.push({ text: "Matrix must be invertible ($\\Delta_" + rows + " \\neq 0$)", ok: dn > 0 });
+            determinants.push({ text: "Matrix must be invertible ($\\Delta_" + rows + " \\neq 0$)", ok: dn != 0 });
         }
         steps.push({
             text: "Check preconditions",

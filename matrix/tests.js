@@ -76,7 +76,7 @@ describe('Matrix', function () {
                     { text: "Matrix must be square", ok: true }
                 ]
             };
-            it('given a valid matrix', function() {
+            it('given a valid matrix with a positive determinant', function() {
                 const json = lu_factorization(matrix_valid, b_valid, true)
                 const steps = json.result.steps;
 
@@ -103,6 +103,24 @@ describe('Matrix', function () {
 
                 assert.deepStrictEqual(steps[5].text, 'Find X given that $UX = Y$');
                 assert.deepStrictEqual(steps[5].steps.value, expected_valid_X);
+            });
+            // checking the fix > instead of !=
+            it('given a valid matrix with a negative determinant', function() {
+                let matrix_valid = createMatrix([4,6,2,9,2,2,4,2,9], 3, 3);
+                let b_valid = [0,0,0]
+                const json = lu_factorization(matrix_valid, b_valid, true)
+                const steps = json.result.steps;
+
+                assert.deepStrictEqual(steps[0], first_check_valid);
+                assert.deepStrictEqual(steps[1], {
+                    text: "Check preconditions",
+                    steps: [
+                        { text: `Checking leading minor $\\Delta_1$`, ok: true },
+                        { text: `Checking leading minor $\\Delta_2$`, ok: true },
+                        { text: `Checking leading minor $\\Delta_3$`, ok: true },
+                        { text: "Matrix must be invertible ($\\Delta_3 \\neq 0$)", ok: true }
+                    ]
+                });
             });
             it('given an invalid matrix', function() {
                 const matrix_not_invertible = createMatrix([], 2, 2);

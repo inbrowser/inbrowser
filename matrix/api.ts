@@ -120,13 +120,13 @@ function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResu
             dn = mathjs.det(v)
             let res = {
                 text: `Checking leading minor $\\Delta_${i+1}$`,
-                ok: dn > 0
+                ok: dn != 0
             }
             determinants.push(res);
             if (!res.ok) { empty = true; break; } // stop if invalid
         }
         if (!empty) { // not processing the last step of this category
-            determinants.push({text: `Matrix must be invertible ($\\Delta_${rows} \\neq 0$)`, ok: dn > 0})
+            determinants.push({text: `Matrix must be invertible ($\\Delta_${rows} \\neq 0$)`, ok: dn != 0})
         }
         steps.push({
             text: "Check preconditions",
