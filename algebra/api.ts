@@ -5,7 +5,7 @@ import {APIResult} from "../index";
 /**
  * Error messages
  */
- export enum AlgebraErrorMessages {
+export enum AlgebraErrorMessages {
     InvalidParameterFunction = "The parameter \"%s\" is invalid.",
     InvalidNthParameterFunction = "The %s parameter \"%s\" is invalid.",
 }
@@ -38,13 +38,11 @@ function check2Parameters(complexNumber1: Complex, complexNumber2: Complex) : AP
 }
 
 
-
-
 export function createComplex(re: number, im: number) {
     return mathjs.complex(re, im);
 }
 
-export function getNeg(complexNumber: Complex) : Complex {
+export function getNeg(complexNumber: Complex) : APIResult {
     let check = checkParameter(complexNumber);
     if (check != null) return check;
 
@@ -52,7 +50,7 @@ export function getNeg(complexNumber: Complex) : Complex {
     return { result: complexNumber.neg() };
 }
 
-export function getConjugate(complexNumber: Complex) : Complex {
+export function getConjugate(complexNumber: Complex) : APIResult {
     let check = checkParameter(complexNumber);
     if (check != null) return check;
 
@@ -60,7 +58,7 @@ export function getConjugate(complexNumber: Complex) : Complex {
     return { result: complexNumber.conjugate() };
 }
 
-export function getInverse(complexNumber: Complex) {
+export function getInverse(complexNumber: Complex) : APIResult {
     let check = checkParameter(complexNumber);
     if (check != null) return check;
 
@@ -68,7 +66,7 @@ export function getInverse(complexNumber: Complex) {
     return { result: complexNumber.inverse() };
 }
 
-export function addComplex(complexNumber1: Complex, complexNumber2: Complex) {
+export function addComplex(complexNumber1: Complex, complexNumber2: Complex) : APIResult {
     let check = check2Parameters(complexNumber1, complexNumber2);
     if (check != null) return check;
 
@@ -76,7 +74,7 @@ export function addComplex(complexNumber1: Complex, complexNumber2: Complex) {
     return { result: mathjs.add(complexNumber1, complexNumber2) };
 }
 
-export function multiplyComplex(complexNumber1: Complex, complexNumber2: Complex) {
+export function multiplyComplex(complexNumber1: Complex, complexNumber2: Complex) : APIResult {
     let check = check2Parameters(complexNumber1, complexNumber2);
     if (check != null) return check;
 
@@ -84,7 +82,7 @@ export function multiplyComplex(complexNumber1: Complex, complexNumber2: Complex
     return { result: mathjs.multiply(complexNumber1, complexNumber2) };
 }
 
-export function getPolarCoordinates(complexNumber: Complex) {
+export function getPolarCoordinates(complexNumber: Complex) : APIResult {
     let check = checkParameter(complexNumber);
     if (check != null) return check;
 
