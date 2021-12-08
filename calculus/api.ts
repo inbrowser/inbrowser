@@ -8,6 +8,7 @@ import {APIResult} from "../index";
 export enum CalculusErrorMessages {
     InvalidFunction = "The given parameter for the function's expression is not valid",
     NullParameterForFunction = "This function does not have parameters",
+    InvalidParameterFunction = "The parameter %s is invalid. Expected {variable_name: value}.",
 }
 
 //precise that only functions with a single parameter are supported
@@ -22,16 +23,14 @@ export enum CalculusErrorMessages {
  *         ======> check behavior if 1/0
  */
 export function evaluate_function(fx: string, variables : object) : APIResult {
-    if (fx === undefined || fx == null)
-    {
+    if (fx === undefined || fx == null) {
         return {
             result: null,
             error: CalculusErrorMessages.InvalidFunction
         }
     }
 
-    if (variables === undefined || variables == null)
-    {
+    if (variables === undefined || variables == null) {
         return {
             result: null,
             error: CalculusErrorMessages.NullParameterForFunction
@@ -60,18 +59,18 @@ export function evaluate_function(fx: string, variables : object) : APIResult {
  *          function in result
  * @return json if there is no error, return the string corresponding to thr expression of the derivative in result
  */
-export function first_simple_derivative(fx: string, variable: string) : object {
+export function first_simple_derivative(fx: string, variable: string) : APIResult {
     // failure cases
     if (fx == null) {
-        return{
+        return {
             result: null,
             error: CalculusErrorMessages.InvalidFunction
         }
     }
     if (variable == null) {
-        return{
-            result: fx,
-            error: CalculusErrorMessages.NullParameterForFunction
+        return {
+            result: null,
+            error: CalculusErrorMessages.InvalidParameterFunction.replace("%s", `"${variable}"`)
         }
     }
 
@@ -102,7 +101,15 @@ math.import( [[integral.createIntegral]] );
  *                    error message
  *                    - else, return the string of the computed integral in result and a null error
 */
-export function compute_integral(fx: string, x: string) {
+export function compute_integral(fx: string, x: string) : APIResult {
+    // failure cases
+    if (fx == null) return { result: null, error: CalculusErrorMessages.InvalidFunction }
+    if (x == null)
+        return {
+            result: null,
+            error: CalculusErrorMessages.InvalidParameterFunction.replace("%s", `"${x}"`)
+        }
+
     try {
         // @ts-ignore
         let res = math.integrate(fx,x);
@@ -112,6 +119,7 @@ export function compute_integral(fx: string, x: string) {
     }
     catch (e) {
         return {
+            result: null,
             error: e.message
         }
     }

@@ -7,6 +7,7 @@ var CalculusErrorMessages;
 (function (CalculusErrorMessages) {
     CalculusErrorMessages["InvalidFunction"] = "The given parameter for the function's expression is not valid";
     CalculusErrorMessages["NullParameterForFunction"] = "This function does not have parameters";
+    CalculusErrorMessages["InvalidParameterFunction"] = "The parameter %s is invalid. Expected {variable_name: value}.";
 })(CalculusErrorMessages = exports.CalculusErrorMessages || (exports.CalculusErrorMessages = {}));
 function evaluate_function(fx, variables) {
     if (fx === undefined || fx == null) {
@@ -44,8 +45,8 @@ function first_simple_derivative(fx, variable) {
     }
     if (variable == null) {
         return {
-            result: fx,
-            error: CalculusErrorMessages.NullParameterForFunction
+            result: null,
+            error: CalculusErrorMessages.InvalidParameterFunction.replace("%s", "\"" + variable + "\"")
         };
     }
     try {
@@ -65,6 +66,13 @@ exports.first_simple_derivative = first_simple_derivative;
 var math = mathjs.create(mathjs.all);
 math["import"]([[integral.createIntegral]]);
 function compute_integral(fx, x) {
+    if (fx == null)
+        return { result: null, error: CalculusErrorMessages.InvalidFunction };
+    if (x == null)
+        return {
+            result: null,
+            error: CalculusErrorMessages.InvalidParameterFunction.replace("%s", "\"" + x + "\"")
+        };
     try {
         var res = math.integrate(fx, x);
         return {
@@ -73,6 +81,7 @@ function compute_integral(fx, x) {
     }
     catch (e) {
         return {
+            result: null,
             error: e.message
         };
     }
