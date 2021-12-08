@@ -100,7 +100,7 @@ math.import( [[integral.createIntegral]] );
  *                    - if there is an error when trying to integrate, return a null result and the corresponding
  *                    error message
  *                    - else, return the string of the computed integral in result and a null error
-*/
+ */
 export function compute_integral(fx: string, x: string) : APIResult {
     // failure cases
     if (fx == null) return { result: null, error: CalculusErrorMessages.InvalidFunction }

@@ -1,5 +1,5 @@
 const {createMatrix, MatrixErrors, lu_factorization, matrix_product, matrix_inverse,
-	matrix_determinant, matrix_exponential, matrix_solve_AX_eq_Y} = require("./api" );
+	matrix_determinant, matrix_exponential, matrix_solve_AX_eq_Y} = require("./api");
 const assert = require("assert");
 
 describe('Matrix', function () {
