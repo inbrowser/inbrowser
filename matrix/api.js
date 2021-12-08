@@ -3,6 +3,9 @@ exports.__esModule = true;
 exports.matrix_solve_AX_eq_Y = exports.matrix_exponential = exports.matrix_determinant = exports.lu_factorization = exports.MatrixErrors = exports.createMatrix = exports.matrix_inverse = exports.matrix_product = void 0;
 var mathjs = require("mathjs");
 function matrix_product(a, b) {
+    var error = CheckParameters([[a, "a"], [b, "b"]]);
+    if (error != null)
+        return error;
     try {
         var x = mathjs.multiply(a, b);
         return {
@@ -18,6 +21,9 @@ function matrix_product(a, b) {
 }
 exports.matrix_product = matrix_product;
 function matrix_inverse(a) {
+    var error = CheckParameters([[a, "a"]]);
+    if (error != null)
+        return error;
     try {
         var x = mathjs.inv(a);
         return {
@@ -50,10 +56,28 @@ function createMatrix(data, cols, rows) {
 exports.createMatrix = createMatrix;
 var MatrixErrors;
 (function (MatrixErrors) {
-    MatrixErrors["PARAMETER_EMPTY"] = "Value null of undefined";
+    MatrixErrors["PARAMETER_EMPTY"] = "The parameter \"%s\" should not be null of undefined";
     MatrixErrors["NOT_INVERTIBLE"] = "Matrix not invertible";
     MatrixErrors["VECTOR_B_INVALID_SIZE"] = "The number of values in b is not equals to the number of rows in A.";
 })(MatrixErrors = exports.MatrixErrors || (exports.MatrixErrors = {}));
+function CheckParameter(p, name) {
+    if (p == null) {
+        return {
+            result: null,
+            error: MatrixErrors.PARAMETER_EMPTY.replace('%s', name)
+        };
+    }
+    return null;
+}
+function CheckParameters(params) {
+    var error;
+    params.forEach(function (v) {
+        if (error == null)
+            error = CheckParameter(v[0], v[1]);
+    });
+    if (error != null)
+        return error;
+}
 function lu_factorization_with_steps(matrix, b) {
     var steps = [];
     var L = matrix;
@@ -133,8 +157,9 @@ function lu_factorization_with_steps(matrix, b) {
 }
 function lu_factorization(matrix, b, computeSteps) {
     if (computeSteps === void 0) { computeSteps = false; }
-    if (matrix == null || b == null)
-        return { result: null, error: MatrixErrors.PARAMETER_EMPTY };
+    var error = CheckParameters([[matrix, "matrix"], [b, "b"]]);
+    if (error != null)
+        return error;
     if (matrix.size().shift() != b.length)
         return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE };
     try {
@@ -145,24 +170,25 @@ function lu_factorization(matrix, b, computeSteps) {
         return { result: { L: f.L.toArray(), U: f.U.toArray(), X: x.toArray().flat() } };
     }
     catch (e) {
-        var error = e.message;
-        switch (error) {
+        var error_1 = e.message;
+        switch (error_1) {
             case 'Dimension mismatch. Matrix columns must match vector length.':
-                error = MatrixErrors.VECTOR_B_INVALID_SIZE;
+                error_1 = MatrixErrors.VECTOR_B_INVALID_SIZE;
                 break;
             case 'Linear system cannot be solved since matrix is singular':
-                error = MatrixErrors.NOT_INVERTIBLE;
+                error_1 = MatrixErrors.NOT_INVERTIBLE;
                 break;
             default: break;
         }
-        return { result: null, error: error };
+        return { result: null, error: error_1 };
     }
 }
 exports.lu_factorization = lu_factorization;
 function matrix_determinant(matrix) {
+    var error = CheckParameters([[matrix, "matrix"]]);
+    if (error != null)
+        return error;
     try {
-        if (matrix == null)
-            return { result: null, error: "Unexpected type of argument" };
         var x = mathjs.det(matrix);
         return {
             result: x
@@ -177,9 +203,10 @@ function matrix_determinant(matrix) {
 }
 exports.matrix_determinant = matrix_determinant;
 function matrix_exponential(matrix) {
+    var error = CheckParameters([[matrix, "matrix"]]);
+    if (error != null)
+        return error;
     try {
-        if (matrix == null)
-            return { result: null, error: "Unexpected type of argument" };
         var x = mathjs.expm(matrix);
         return {
             result: x
@@ -194,6 +221,9 @@ function matrix_exponential(matrix) {
 }
 exports.matrix_exponential = matrix_exponential;
 function matrix_solve_AX_eq_Y(A, Y) {
+    var error = CheckParameters([[A, "A"], [Y, "Y"]]);
+    if (error != null)
+        return error;
     try {
         var invA = mathjs.inv(A);
         var X = mathjs.multiply(invA, Y);

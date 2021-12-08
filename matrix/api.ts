@@ -4,13 +4,16 @@ import {APIResult} from "../index";
 
 /**
  * Take two matrices and return the result of their mathematical product
- * @param a if undefined then error (Unexpected type of argument)
- * @param b if undefined then error (Unexpected type of argument)
+ * @param a if undefined then error (see PARAMETER_EMPTY)
+ * @param b if undefined then error (see PARAMETER_EMPTY)
  *
  * @return json
- * => error if sizes does not match (Dimension mismatch in multiplication)
+ * => error if sizes does not match (Dimension mismatch in multiplication )
  */
 export function matrix_product(a: Matrix, b: Matrix) : APIResult {
+    let error = CheckParameters([[a, "a"], [b, "b"]]);
+    if (error != null) return error;
+
     try{
         let x: Matrix = mathjs.multiply(a,b)
         return{
@@ -27,13 +30,16 @@ export function matrix_product(a: Matrix, b: Matrix) : APIResult {
 
 /**
  * Take a matrix and return his inverse
- * @param a if undefined then error (Unexpected type of argument)
+ * @param a if undefined then error (see PARAMETER_EMPTY)
  *
  * @return json
  * => error if determinant is 0 (Cannot calculate inverse, determinant is zero)
  * => error if matrix is not square (Matrix must be square)
  */
 export function matrix_inverse(a: Matrix) : APIResult {
+    let error = CheckParameters([[a, "a"]]);
+    if (error != null) return error;
+
     try{
         let x: Matrix = mathjs.inv(a)
         return {
@@ -69,9 +75,27 @@ export function createMatrix(data: number[], cols: number, rows?: number) : Matr
 }
 
 export enum MatrixErrors {
-    PARAMETER_EMPTY = "Value null of undefined",
+    PARAMETER_EMPTY = "The parameter \"%s\" should not be null of undefined",
     NOT_INVERTIBLE = "Matrix not invertible",
     VECTOR_B_INVALID_SIZE = "The number of values in b is not equals to the number of rows in A.",
+}
+
+function CheckParameter(p: any, name: string) : APIResult {
+    if (p == null) {
+        return {
+            result: null,
+            error: MatrixErrors.PARAMETER_EMPTY.replace('%s', name)
+        }
+    }
+    return null;
+}
+
+function CheckParameters(params: Array<any>) : APIResult  {
+    let error : APIResult;
+    params.forEach((v) => {
+        if (error == null) error = CheckParameter(v[0], v[1]);
+    })
+    if ( error != null ) return error;
 }
 
 /**
@@ -79,7 +103,7 @@ export enum MatrixErrors {
  *
  * @return we are adding a new entry in result: "steps".
  * => Checking the format of the submitted matrix
- *    Matrix must be two dimensional: true
+ *    Matrix must be two-dimensional: true
  *    Matrix must be square: true
  * [IF OK] => Checking the format of the submitted matrix
  *    Checking leading minor $\Delta_i$: true/false
@@ -195,7 +219,9 @@ function lu_factorization_with_steps(matrix: Matrix, b: Array<Number>) : APIResu
  */
 export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps = false) : APIResult {
     // include undefined
-    if ( matrix == null || b == null ) return { result: null, error: MatrixErrors.PARAMETER_EMPTY }
+    let error = CheckParameters([[matrix, "matrix"], [b, "b"]]);
+    if (error != null) return error;
+
     if ( matrix.size().shift() != b.length ) return { result: null, error: MatrixErrors.VECTOR_B_INVALID_SIZE }
 
     try {
@@ -225,9 +251,10 @@ export function lu_factorization(matrix: Matrix, b: Array<Number>, computeSteps 
  * Take a matrix and return its determinant
  */
 export function matrix_determinant(matrix: Matrix) : APIResult {
-    try {
-        if (matrix == null) return {result: null, error: "Unexpected type of argument"};
+    let error = CheckParameters([[matrix, "matrix"]]);
+    if (error != null) return error;
 
+    try {
         let x: Number = mathjs.det(matrix);
 
         return {
@@ -246,9 +273,10 @@ export function matrix_determinant(matrix: Matrix) : APIResult {
  * Take a matrix and return its exponential (Using the exponential series)
  */
 export function matrix_exponential(matrix: Matrix) : APIResult {
-    try {
-        if (matrix == null) return {result: null, error: "Unexpected type of argument"};
+    let error = CheckParameters([[matrix, "matrix"]]);
+    if (error != null) return error;
 
+    try {
         let x: Matrix = mathjs.expm(matrix);
 
         return {
@@ -271,6 +299,9 @@ export function matrix_exponential(matrix: Matrix) : APIResult {
  *         - [error]: if result is null, information about "why"
  */
 export function matrix_solve_AX_eq_Y(A: Matrix, Y: Array<number>) : APIResult {
+    let error = CheckParameters([[A, "A"], [Y, "Y"]]);
+    if (error != null) return error;
+
     try{
         let invA: Matrix = mathjs.inv(A)
         let X : Matrix = mathjs.multiply(invA,Y)
